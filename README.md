@@ -34,10 +34,7 @@ graph TD;
 │   ├── ProcessVideoForTranscription/  # Initiates transcription
 │   ├── FetchCaptions/       # Fetches and provides SRT files
 │── /screenshots            # Architecture and UI images
-│── /scripts                # Deployment scripts (optional)
-│── README.md               # Project documentation
-│── .gitignore              # Ignore unnecessary files
-│── requirements.txt        # Dependencies (if applicable)
+
 ```
 
 ## 🚀 How It Works
