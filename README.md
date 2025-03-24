@@ -15,13 +15,12 @@ The **Auto-Caption Generator** is a serverless application that automatically ge
 ```mermaid
 graph TD;
     A[User Uploads Video] -->|Frontend| B[S3 Bucket];
-    B -->|Trigger Lambda| C[Lambda 1: Start Transcription];
+    B -->|Trigger Lambda| C[Lambda: ProcessVideoForTranscription];
     C -->|Amazon Transcribe| D[Generate JSON Captions];
-    D -->|Process JSON| E[Lambda 2: Convert JSON to SRT];
-    E -->|Store SRT| F[S3 Bucket];
-    F -->|Generate URL| G[Lambda 3: Serve SRT File];
+    D -->|Process JSON| E[Lambda: FetchCaptions];
+    E -->|Store SRT| F[S3 Bucket (SRT File)];
+    F -->|Generate URL| G[Lambda: GenerateUploadURL];
     G -->|API Gateway| H[User Downloads SRT File];
-
 ```
 
 ## 📂 Project Structure
@@ -29,9 +28,9 @@ graph TD;
 /auto-caption-generator
 │── /frontend               # HTML, JavaScript for UI
 │── /backend                # Lambda functions
-│   ├── video-upload-trigger/
-│   ├── convert-json-to-srt/
-│   ├── serve-srt-file/
+│   ├── GenerateUploadURL/
+│   ├── ProcessVideoForTranscription/
+│   ├── FetchCaptions/
 │── /screenshots            # Architecture and UI images
 │── /scripts                # Deployment scripts (optional)
 │── README.md               # Project documentation
@@ -59,4 +58,23 @@ graph TD;
 ### **Frontend Upload Page**
 ![Upload Page](screenshots/upload-page.png)
 
-## 📹 Video
+## 📹 Video Demo
+[![Watch Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+
+## 🛠️ Technologies Used
+- **Amazon S3** – Stores videos and captions
+- **AWS Lambda** – Handles processing tasks
+- **Amazon Transcribe** – Converts speech to text
+- **API Gateway** – Manages API requests
+- **IAM Roles & Policies** – Secure access management
+
+## 📌 Next Steps
+- [ ] Improve error handling
+- [ ] Implement batch processing for large files
+- [ ] Add support for multiple languages
+
+## 🤝 Contributing
+Feel free to fork this repository, submit issues, or suggest improvements!
+
+## 📝 License
+This project is open-source under the MIT License.
