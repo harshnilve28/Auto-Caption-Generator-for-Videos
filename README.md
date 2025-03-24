@@ -17,11 +17,12 @@ graph TD;
     A[User Requests Upload URL] -->|API Gateway| B[Lambda: GenerateUploadURL];
     B -->|Returns Pre-signed URL| C[Frontend Uploads Video to S3];
     C -->|Trigger Lambda| D[Lambda: ProcessVideoForTranscription];
-    D -->|Amazon Transcribe| E[Generate JSON Captions];
-    E -->|Process JSON| F[Lambda: FetchCaptions];
-    F -->|Store SRT| G[S3 Bucket (SRT File)];
-    G -->|Generate URL| H[API Gateway];
-    H -->|User Downloads SRT File| I[Frontend];
+    D -->|Send to Transcribe| E[Amazon Transcribe];
+    E -->|Generate JSON Captions| F[Lambda: FetchCaptions];
+    F -->|Convert JSON to SRT| G[Store SRT in S3];
+    G -->|Generate Pre-signed URL| H[API Gateway];
+    H -->|Provide SRT File to User| I[Frontend Download];
+
 ```
 
 ## 📂 Project Structure
