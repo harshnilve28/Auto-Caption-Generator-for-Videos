@@ -18,9 +18,10 @@ graph TD;
     B -->|Trigger Lambda| C[Lambda: ProcessVideoForTranscription];
     C -->|Amazon Transcribe| D[Generate JSON Captions];
     D -->|Process JSON| E[Lambda: FetchCaptions];
-    E -->|Store SRT| F[S3 Bucket (SRT File)];
+    E -->|Store SRT| F["S3 Bucket (SRT File)"];
     F -->|Generate URL| G[Lambda: GenerateUploadURL];
     G -->|API Gateway| H[User Downloads SRT File];
+
 ```
 
 ## 📂 Project Structure
