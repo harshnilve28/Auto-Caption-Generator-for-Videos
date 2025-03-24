@@ -17,8 +17,10 @@ graph TD;
     A[User Uploads Video] -->|Frontend| B[S3 Bucket];
     B -->|Trigger Lambda| C[Lambda 1: Start Transcription];
     C -->|Amazon Transcribe| D[Generate JSON Captions];
-    D -->|Lambda 2: Convert JSON to SRT| E[S3 Bucket (SRT File)];
-    E -->|Lambda 3: Generate Pre-Signed URL| F[User Downloads SRT File];
+    D -->|Process JSON| E[Lambda 2: Convert JSON to SRT];
+    E -->|Store SRT| F[S3 Bucket (SRT File)];
+    F -->|Generate URL| G[Lambda 3: Serve SRT File];
+    G -->|API Gateway| H[User Downloads SRT File];
 ```
 
 ## 📂 Project Structure
@@ -56,24 +58,4 @@ graph TD;
 ### **Frontend Upload Page**
 ![Upload Page](screenshots/upload-page.png)
 
-## 📹 Video Demo
-[![Watch Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
-
-## 🛠️ Technologies Used
-- **Amazon S3** – Stores videos and captions
-- **AWS Lambda** – Handles processing tasks
-- **Amazon Transcribe** – Converts speech to text
-- **API Gateway** – Manages API requests
-- **IAM Roles & Policies** – Secure access management
-
-## 📌 Next Steps
-- [ ] Improve error handling
-- [ ] Implement batch processing for large files
-- [ ] Add support for multiple languages
-
-## 🤝 Contributing
-Feel free to fork this repository, submit issues, or suggest improvements!
-
-## 📝 License
-This project is open-source under the MIT License.
-
+## 📹 Video
