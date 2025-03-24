@@ -50,16 +50,52 @@ graph TD;
 | Request Upload URL | GET | `/generate-upload-url` |
 | Get Transcription Status | GET | `/transcription-status?file={filename}` |
 | Download SRT File | GET | `/download-srt?file={filename}` |
-
 ## 🖼️ Screenshots
 ### **Architecture Diagram**
-![Architecture](screenshots/architecture.png)
 
-### **Frontend Upload Page**
-![Upload Page](screenshots/upload-page.png)
+#### **1. API Gateway & Lambda**
+![API Gateway & Lambda](screenshots/api.png)  
+The user requests an upload URL from the frontend, which triggers API Gateway through two API endpoints. This invokes a Lambda function that generates a pre-signed URL for uploading the video.
 
-## 📹 Video Demo
-[![Watch Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+#### **2. Lambda Functions**
+![Lambda Functions](screenshots/functions.png)  
+Lambda functions handle different stages of the process, including:  
+- Generating pre-signed upload URLs  
+- Processing uploaded videos  
+- Fetching transcription results  
+- Converting JSON captions into an SRT file  
+
+#### **3. S3 Video Storage**
+![S3 Video Storage](screenshots/videos.png)  
+- Stores videos uploaded from webpage
+
+#### **4. Transcription Process**
+![Transcription Process](screenshots/transcription.png)  
+After a video is uploaded, an S3 event triggers a Lambda function that:  
+- Processes the uploaded video  
+- Sends it to Amazon Transcribe for speech-to-text conversion  
+
+#### **5. S3 Generated Captions**
+![S3 Generated Captions](screenshots/s3content.png)  
+The S3 bucket structure includes:  
+- `/videos/` → Stores uploaded video files  
+- `/transcription/` → Stores transcription JSON files  
+- `/srt/` → Stores generated subtitle (SRT) files  
+- `index.html` → Frontend webpage for user interaction
+
+
+#### **6. SRT File Storage**
+![SRT File Storage](screenshots/srt.png)  
+A Lambda function converts the JSON captions into an SRT file, which is stored under:  
+- `/srt/{filename}.srt`  
+
+#### **7. Frontend Web Page**
+![Frontend Web Page](screenshots/webpage.png)  
+The frontend allows users to:  
+- Upload videos  
+- Enter the filename to retrieve the generated SRT file  
+- Use API Gateway to fetch the SRT file via a pre-signed URL  
+
 
 ## 🛠️ Technologies Used
 - **Amazon S3** – Stores videos and captions
@@ -67,15 +103,3 @@ graph TD;
 - **Amazon Transcribe** – Converts speech to text
 - **API Gateway** – Manages API requests
 - **IAM Roles & Policies** – Secure access management
-
-## 📌 Next Steps
-- [ ] Improve error handling
-- [ ] Implement batch processing for large files
-- [ ] Add support for multiple languages
-
-## 🤝 Contributing
-Feel free to fork this repository, submit issues, or suggest improvements!
-
-## 📝 License
-This project is open-source under the MIT License.
-
